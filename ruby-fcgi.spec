@@ -1,3 +1,4 @@
+# TODO: optflags
 %define ruby_archdir    %(ruby -r rbconfig -e 'print Config::CONFIG["archdir"]')
 %define ruby_rubylibdir %(ruby -r rbconfig -e 'print Config::CONFIG["rubylibdir"]')
 Summary:	Ruby FastCGI Library
@@ -11,9 +12,8 @@ Source0:	http://www.moonwolf.com/ruby/archive/%{name}-%{version}.tar.gz
 # Source0-md5:	896007e727153c6d05c380dd2d7fb109
 Patch0:		%{name}-dirs.patch
 URL:		http://rwiki.moonwolf.com/rw-cgi.cgi?cmd=view;name=fcgi
-BuildRequires:	ruby
 BuildRequires:	fcgi-devel
-BuildArch:	noarch
+BuildRequires:	ruby
 Obsoletes:	ruby-fcgi-minero
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
