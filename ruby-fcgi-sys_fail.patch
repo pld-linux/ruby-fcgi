@@ -9,7 +9,7 @@ diff -ur o-ruby-fcgi-0.8.5/ext/fcgi/fcgi.c ruby-fcgi-0.8.5/ext/fcgi/fcgi.c
    if (err) {\
      if (err > 0) {\
 -      rb_sys_fail(0);\
-+			errno = -err;\
++			errno = err;\
 +      rb_sys_fail(NULL);\
      }\
      else {\
