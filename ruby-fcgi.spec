@@ -11,6 +11,7 @@ Group:		Development/Libraries
 Source0:	http://www.moonwolf.com/ruby/archive/%{name}-%{version}.tar.gz
 # Source0-md5:	896007e727153c6d05c380dd2d7fb109
 Patch0:		%{name}-dirs.patch
+Patch1:	%{name}-sys_fail.patch
 URL:		http://rwiki.moonwolf.com/rw-cgi.cgi?cmd=view;name=fcgi
 BuildRequires:	fcgi-devel
 BuildRequires:	ruby
@@ -26,6 +27,7 @@ Biblioteka FastCGI dla jêzyka Ruby.
 %prep
 %setup -q
 %patch0 -p1
+%patch1 -p1
 
 %build
 ruby install.rb config --site-ruby=%{ruby_rubylibdir} --so-dir=%{ruby_archdir}
