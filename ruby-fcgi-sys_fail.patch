@@ -1,7 +1,7 @@
 diff -ur o-ruby-fcgi-0.8.5/ext/fcgi/fcgi.c ruby-fcgi-0.8.5/ext/fcgi/fcgi.c
 --- o-ruby-fcgi-0.8.5/ext/fcgi/fcgi.c	2005-03-03 14:21:55.980081000 -0700
-+++ ruby-fcgi-0.8.5/ext/fcgi/fcgi.c	2005-03-03 14:32:30.932554392 -0700
-@@ -155,11 +155,27 @@
++++ ruby-fcgi-0.8.5/ext/fcgi/fcgi.c	2005-03-03 15:09:34.544513992 -0700
+@@ -155,11 +155,25 @@
    return Qtrue;
  }
  
@@ -9,15 +9,13 @@ diff -ur o-ruby-fcgi-0.8.5/ext/fcgi/fcgi.c ruby-fcgi-0.8.5/ext/fcgi/fcgi.c
 +rb_sys_fail2(int errno)
 +{
 +    int n = errno;
-+		VALUE arg;
 +
 +    errno = 0;
 +    if (n == 0) {
 +        rb_bug("rb_sys_fail(%s) - errno == 0", "");
 +    }
 +
-+		arg = Qnil;
-+    rb_exc_raise(rb_class_new_instance(1, &arg, get_syserr(n)));
++		rb_raise(rb_eRuntimeError, "FCGI System Error");
 +}
 +
 +
