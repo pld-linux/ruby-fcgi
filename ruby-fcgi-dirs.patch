@@ -1,0 +1,26 @@
+diff -ur o-ruby-fcgi-0.8.5/ext/fcgi/extconf.rb ruby-fcgi-0.8.5/ext/fcgi/extconf.rb
+--- o-ruby-fcgi-0.8.5/ext/fcgi/extconf.rb	2003-08-27 05:28:35.000000000 -0600
++++ ruby-fcgi-0.8.5/ext/fcgi/extconf.rb	2004-12-31 01:14:44.145677863 -0700
+@@ -4,6 +4,6 @@
+ 
+ dir_config("fcgi")
+ 
+-if have_header("fcgiapp.h") && have_library("fcgi", "FCGX_Accept")
++if (have_header("fcgiapp.h") || have_header("fastcgi/fcgiapp.h")) && have_library("fcgi", "FCGX_Accept")
+   create_makefile("fcgi")
+ end
+diff -ur o-ruby-fcgi-0.8.5/ext/fcgi/fcgi.c ruby-fcgi-0.8.5/ext/fcgi/fcgi.c
+--- o-ruby-fcgi-0.8.5/ext/fcgi/fcgi.c	2003-08-27 05:28:35.000000000 -0600
++++ ruby-fcgi-0.8.5/ext/fcgi/fcgi.c	2004-12-31 01:15:22.665992683 -0700
+@@ -9,7 +9,11 @@
+ #include <unistd.h>
+ 
+ #include "ruby.h"
++#ifdef HAVE_FASTCGI_FCGIAPP_H
++#include <fastcgi/fcgiapp.h>
++#else
+ #include "fcgiapp.h"
++#endif
+ 
+ static VALUE cFCGI;
+ static VALUE eFCGIError;
