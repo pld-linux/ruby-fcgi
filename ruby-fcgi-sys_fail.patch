@@ -1,30 +1,16 @@
 diff -ur o-ruby-fcgi-0.8.5/ext/fcgi/fcgi.c ruby-fcgi-0.8.5/ext/fcgi/fcgi.c
 --- o-ruby-fcgi-0.8.5/ext/fcgi/fcgi.c	2005-03-03 14:21:55.980081000 -0700
-+++ ruby-fcgi-0.8.5/ext/fcgi/fcgi.c	2005-03-03 15:09:34.544513992 -0700
-@@ -155,11 +155,25 @@
-   return Qtrue;
- }
++++ ruby-fcgi-0.8.5/ext/fcgi/fcgi.c	2005-03-03 15:25:42.814314608 -0700
+@@ -157,9 +157,11 @@
  
-+void
-+rb_sys_fail2(int errno)
-+{
-+    int n = errno;
-+
-+    errno = 0;
-+    if (n == 0) {
-+        rb_bug("rb_sys_fail(%s) - errno == 0", "");
-+    }
-+
-+		rb_raise(rb_eRuntimeError, "FCGI System Error");
-+}
-+
-+
  #define CHECK_STREAM_ERROR(stream) {\
    int err = FCGX_GetError(stream);\
++	extern int errno; \
    if (err) {\
      if (err > 0) {\
 -      rb_sys_fail(0);\
-+      rb_sys_fail2(-err);\
++			errno = -err;\
++      rb_sys_fail(NULL);\
      }\
      else {\
        switch (err) {\
