@@ -4,16 +4,13 @@
 Summary:	Ruby FastCGI Library
 Summary(pl):	Biblioteka FastCGI dla jêzyka Ruby
 Name:		ruby-fcgi
-Version:	0.8.5
-Release:	2
+Version:	0.8.6
+Release:	1
 License:	GPL
 Group:		Development/Libraries
-Source0:	http://www.moonwolf.com/ruby/archive/%{name}-%{version}.tar.gz
-# Source0-md5:	896007e727153c6d05c380dd2d7fb109
-Patch0:		%{name}-dirs.patch
-Patch1:	%{name}-sys_fail.patch
-Patch2:	%{name}-free.patch
-URL:		http://rwiki.moonwolf.com/rw-cgi.cgi?cmd=view;name=fcgi
+Source0:	http://sugi.nemui.org/pub/ruby/fcgi/%{name}-%{version}.tar.gz
+# Source0-md5:	2cfcb78d9809139cc72cfb45386c0723
+URL:		http://sugi.nemui.org/prod/ruby-fcgi/
 BuildRequires:	fcgi-devel
 BuildRequires:	ruby
 Obsoletes:	ruby-fcgi-minero
@@ -27,8 +24,6 @@ Biblioteka FastCGI dla jêzyka Ruby.
 
 %prep
 %setup -q
-%patch0 -p1
-%patch1 -p1
 
 %build
 ruby install.rb config --site-ruby=%{ruby_rubylibdir} --so-dir=%{ruby_archdir}
