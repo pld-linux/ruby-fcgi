@@ -1,6 +1,4 @@
 # TODO: optflags
-%define ruby_archdir    %(ruby -r rbconfig -e 'print Config::CONFIG["archdir"]')
-%define ruby_rubylibdir %(ruby -r rbconfig -e 'print Config::CONFIG["rubylibdir"]')
 Summary:	Ruby FastCGI Library
 Summary(pl):	Biblioteka FastCGI dla jêzyka Ruby
 Name:		ruby-fcgi
@@ -12,6 +10,7 @@ Source0:	http://sugi.nemui.org/pub/ruby/fcgi/%{name}-%{version}.tar.gz
 # Source0-md5:	2cfcb78d9809139cc72cfb45386c0723
 URL:		http://sugi.nemui.org/prod/ruby-fcgi/
 BuildRequires:	fcgi-devel
+BuildRequires:	rpmbuild(macros) >= 1.263
 BuildRequires:	ruby
 Obsoletes:	ruby-fcgi-minero
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -40,7 +39,6 @@ install -d $RPM_BUILD_ROOT%{ruby_rubylibdir}
 
 ruby install.rb install \
 	--prefix=$RPM_BUILD_ROOT
-
 
 %clean
 rm -rf $RPM_BUILD_ROOT
