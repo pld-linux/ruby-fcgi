@@ -8,6 +8,7 @@ License:	GPL
 Group:		Development/Libraries
 Source0:	http://sugi.nemui.org/pub/ruby/fcgi/%{name}-%{version}.tar.gz
 # Source0-md5:	2cfcb78d9809139cc72cfb45386c0723
+Patch0:	%{name}-eagain.patch
 URL:		http://sugi.nemui.org/prod/ruby-fcgi/
 BuildRequires:	fcgi-devel
 BuildRequires:	rpmbuild(macros) >= 1.263
@@ -23,6 +24,7 @@ Biblioteka FastCGI dla jêzyka Ruby.
 
 %prep
 %setup -q
+%patch0 -p1
 
 %build
 ruby install.rb config --site-ruby=%{ruby_rubylibdir} --so-dir=%{ruby_archdir}
