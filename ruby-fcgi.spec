@@ -14,7 +14,7 @@ BuildRequires:	fcgi-devel
 BuildRequires:	rpmbuild(macros) >= 1.277
 BuildRequires:	ruby-modules
 Obsoletes:	ruby-fcgi-minero
-%ruby_mod_ver_requires_eq
+%{?ruby_mod_ver_requires_eq}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
