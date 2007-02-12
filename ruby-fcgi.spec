@@ -1,6 +1,6 @@
 # TODO: optflags
 Summary:	Ruby FastCGI Library
-Summary(pl.UTF-8):   Biblioteka FastCGI dla języka Ruby
+Summary(pl.UTF-8):	Biblioteka FastCGI dla języka Ruby
 Name:		ruby-fcgi
 Version:	0.8.6
 Release:	3
