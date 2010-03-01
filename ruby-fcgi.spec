@@ -3,11 +3,12 @@ Summary:	Ruby FastCGI Library
 Summary(pl.UTF-8):	Biblioteka FastCGI dla języka Ruby
 Name:		ruby-fcgi
 Version:	0.8.7
-Release:	1
+Release:	2
 License:	GPL
 Group:		Development/Libraries
 Source0:	http://www.moonwolf.com/ruby/archive/%{name}-%{version}.tar.gz
 # Source0-md5:	fe4d4a019785e8108668a3e81a5df5e1
+Patch0:		%{name}-ruby1.9.patch
 URL:		http://sugi.nemui.org/prod/ruby-fcgi/
 BuildRequires:	fcgi-devel
 BuildRequires:	rpmbuild(macros) >= 1.277
@@ -22,30 +23,67 @@ Ruby FastCGI Library.
 %description -l pl.UTF-8
 Biblioteka FastCGI dla języka Ruby.
 
+%package rdoc
+Summary:	HTML documentation for %{name}
+Summary(pl.UTF-8):	Dokumentacja w formacie HTML dla %{name}
+Group:		Documentation
+Requires:	ruby >= 1:1.8.7-4
+
+%description rdoc
+HTML documentation for %{name}.
+
+%description rdoc -l pl.UTF-8
+Dokumentacja w formacie HTML dla %{name}.
+
+%package ri
+Summary:	ri documentation for %{name}
+Summary(pl.UTF-8):	Dokumentacja w formacie ri dla %{name}
+Group:		Documentation
+Requires:	ruby
+
+%description ri
+ri documentation for %{name}.
+
+%description ri -l pl.UTF-8
+Dokumentacji w formacie ri dla %{name}.
+
 %prep
 %setup -q
+%patch0 -p1
 
 %build
-ruby install.rb config --site-ruby=%{ruby_rubylibdir} --so-dir=%{ruby_archdir}
+ruby install.rb config \
+	--site-ruby=%{ruby_rubylibdir} \
+	--so-dir=%{ruby_archdir}
+
 ruby install.rb setup
 
-mkdir rdoc
-
-rdoc -o rdoc/c ext/*
-rdoc -o rdoc/ruby lib/*
+rdoc --ri --op ri lib ext
+rdoc --op rdoc lib ext
+rm ri/created.rid
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT%{ruby_rubylibdir}
+install -d $RPM_BUILD_ROOT{%{ruby_rubylibdir},%{ruby_ridir},%{ruby_rdocdir}}
 
 ruby install.rb install \
 	--prefix=$RPM_BUILD_ROOT
+
+cp -a ri/* $RPM_BUILD_ROOT%{ruby_ridir}
+cp -a rdoc $RPM_BUILD_ROOT%{ruby_rdocdir}/%{name}-%{version}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc rdoc/*
 %{ruby_rubylibdir}/fcgi.rb
 %attr(755,root,root) %{ruby_archdir}/fcgi.so
+
+%files rdoc
+%defattr(644,root,root,755)
+%{ruby_rdocdir}/%{name}-%{version}
+
+%files ri
+%defattr(644,root,root,755)
+%{ruby_ridir}/FCGI
