@@ -11,10 +11,10 @@ Source0:	http://www.moonwolf.com/ruby/archive/%{name}-%{version}.tar.gz
 Patch0:		%{name}-ruby1.9.patch
 URL:		http://sugi.nemui.org/prod/ruby-fcgi/
 BuildRequires:	fcgi-devel
-BuildRequires:	rpmbuild(macros) >= 1.277
+BuildRequires:	rpm-rubyprov
+BuildRequires:	rpmbuild(macros) >= 1.665
 BuildRequires:	ruby-devel >= 1:1.8.4
 Obsoletes:	ruby-fcgi-minero
-%{?ruby_mod_ver_requires_eq}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -53,18 +53,19 @@ Dokumentacji w formacie ri dla %{name}.
 
 %build
 ruby install.rb config \
-	--site-ruby=%{ruby_rubylibdir} \
-	--so-dir=%{ruby_archdir}
+	--site-ruby=%{ruby_vendorlibdir} \
+	--so-dir=%{ruby_vendorarchdir}
 
 ruby install.rb setup
 
 rdoc --ri --op ri lib ext
 rdoc --op rdoc lib ext
 rm ri/created.rid
+rm ri/cache.ri
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{ruby_rubylibdir},%{ruby_ridir},%{ruby_rdocdir}}
+install -d $RPM_BUILD_ROOT{%{ruby_ridir},%{ruby_rdocdir}}
 
 ruby install.rb install \
 	--prefix=$RPM_BUILD_ROOT
@@ -77,8 +78,8 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%{ruby_rubylibdir}/fcgi.rb
-%attr(755,root,root) %{ruby_archdir}/fcgi.so
+%attr(755,root,root) %{ruby_vendorarchdir}/fcgi.so
+%{ruby_vendorlibdir}/fcgi.rb
 
 %files rdoc
 %defattr(644,root,root,755)
