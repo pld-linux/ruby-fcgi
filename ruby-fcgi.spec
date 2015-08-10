@@ -3,7 +3,7 @@ Summary:	Ruby FastCGI Library
 Summary(pl.UTF-8):	Biblioteka FastCGI dla języka Ruby
 Name:		ruby-fcgi
 Version:	0.8.7
-Release:	4
+Release:	5
 License:	GPL
 Group:		Development/Libraries
 Source0:	http://www.moonwolf.com/ruby/archive/%{name}-%{version}.tar.gz
@@ -28,6 +28,9 @@ Summary:	HTML documentation for %{name}
 Summary(pl.UTF-8):	Dokumentacja w formacie HTML dla %{name}
 Group:		Documentation
 Requires:	ruby >= 1:1.8.7-4
+%if "%{_rpmversion}" >= "5"
+BuildArch:	noarch
+%endif
 
 %description rdoc
 HTML documentation for %{name}.
@@ -40,6 +43,9 @@ Summary:	ri documentation for %{name}
 Summary(pl.UTF-8):	Dokumentacja w formacie ri dla %{name}
 Group:		Documentation
 Requires:	ruby
+%if "%{_rpmversion}" >= "5"
+BuildArch:	noarch
+%endif
 
 %description ri
 ri documentation for %{name}.
