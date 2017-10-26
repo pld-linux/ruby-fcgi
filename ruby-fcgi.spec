@@ -3,7 +3,7 @@ Summary:	Ruby FastCGI Library
 Summary(pl.UTF-8):	Biblioteka FastCGI dla języka Ruby
 Name:		ruby-fcgi
 Version:	0.8.7
-Release:	7
+Release:	8
 License:	GPL
 Group:		Development/Libraries
 Source0:	http://www.moonwolf.com/ruby/archive/%{name}-%{version}.tar.gz
@@ -14,6 +14,7 @@ BuildRequires:	fcgi-devel
 BuildRequires:	rpm-rubyprov
 BuildRequires:	rpmbuild(macros) >= 1.665
 BuildRequires:	ruby-devel >= 1:1.8.4
+BuildRequires:	setup.rb >= 3.4.1-6
 Obsoletes:	ruby-fcgi-minero
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
