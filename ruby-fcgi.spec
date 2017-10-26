@@ -58,12 +58,14 @@ Dokumentacji w formacie ri dla %{name}.
 %setup -q
 %patch0 -p1
 
+cp %{_datadir}/setup.rb .
+
 %build
-ruby install.rb config \
+%{__ruby} setup.rb config \
 	--site-ruby=%{ruby_vendorlibdir} \
 	--so-dir=%{ruby_vendorarchdir}
 
-ruby install.rb setup
+%{__ruby} setup.rb setup
 
 rdoc --ri --op ri lib ext
 rdoc --op rdoc lib ext
@@ -73,8 +75,7 @@ rm ri/cache.ri
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{ruby_ridir},%{ruby_rdocdir}}
-
-ruby install.rb install \
+%{__ruby} setup.rb install \
 	--prefix=$RPM_BUILD_ROOT
 
 cp -a ri/* $RPM_BUILD_ROOT%{ruby_ridir}
