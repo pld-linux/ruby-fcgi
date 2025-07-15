@@ -52,7 +52,7 @@ Dokumentacji w formacie ri dla %{name}.
 
 %prep
 %setup -q
-%patch0 -p1
+%patch -P0 -p1
 
 cp %{_datadir}/setup.rb .
 
