@@ -1,20 +1,17 @@
-# TODO: optflags
 Summary:	Ruby FastCGI Library
 Summary(pl.UTF-8):	Biblioteka FastCGI dla języka Ruby
 Name:		ruby-fcgi
-Version:	0.8.7
-Release:	11
-License:	GPL
-Group:		Development/Libraries
-Source0:	http://www.moonwolf.com/ruby/archive/%{name}-%{version}.tar.gz
-# Source0-md5:	fe4d4a019785e8108668a3e81a5df5e1
-Patch0:		%{name}-ruby1.9.patch
-URL:		http://sugi.nemui.org/prod/ruby-fcgi/
+Version:	0.9.2.2
+Release:	1
+License:	MIT
+Group:		Development/Languages
+Source0:	https://rubygems.org/downloads/fcgi-%{version}.gem
+# Source0-md5:	2fd822dcd51814a575f07c5ae269e901
+URL:		https://rubygems.org/gems/fcgi
 BuildRequires:	fcgi-devel
 BuildRequires:	rpm-rubyprov
-BuildRequires:	rpmbuild(macros) >= 1.729
-BuildRequires:	ruby-devel >= 1:1.8.4
-BuildRequires:	setup.rb >= 3.4.1-6
+BuildRequires:	rpmbuild(macros) >= 1.665
+BuildRequires:	ruby-devel
 Obsoletes:	ruby-fcgi-minero
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -51,28 +48,27 @@ ri documentation for %{name}.
 Dokumentacji w formacie ri dla %{name}.
 
 %prep
-%setup -q
-%patch -P0 -p1
-
-cp %{_datadir}/setup.rb .
+%setup -q -n fcgi-%{version}
 
 %build
-%{__ruby} setup.rb config \
-	--site-ruby=%{ruby_vendorlibdir} \
-	--so-dir=%{ruby_vendorarchdir}
+cd ext/fcgi
+%{__ruby} extconf.rb
+%{__make} \
+	CC="%{__cc}" \
+	CFLAGS="%{rpmcflags} -fPIC"
 
-%{__ruby} setup.rb setup
-
-rdoc --ri --op ri lib ext
-rdoc --op rdoc lib ext
+cd ../..
+rdoc --ri --op ri lib
+rdoc --op rdoc lib
 rm ri/created.rid
 rm ri/cache.ri
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{ruby_ridir},%{ruby_rdocdir}}
-%{__ruby} setup.rb install \
-	--prefix=$RPM_BUILD_ROOT
+install -d $RPM_BUILD_ROOT{%{ruby_vendorlibdir},%{ruby_vendorarchdir},%{ruby_ridir},%{ruby_rdocdir}}
+
+cp -a lib/* $RPM_BUILD_ROOT%{ruby_vendorlibdir}
+install -p ext/fcgi/fcgi.so $RPM_BUILD_ROOT%{ruby_vendorarchdir}
 
 cp -a ri/* $RPM_BUILD_ROOT%{ruby_ridir}
 cp -a rdoc $RPM_BUILD_ROOT%{ruby_rdocdir}/%{name}-%{version}
@@ -82,6 +78,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
+%doc LICENSE README.rdoc README.signals
 %attr(755,root,root) %{ruby_vendorarchdir}/fcgi.so
 %{ruby_vendorlibdir}/fcgi.rb
 
